@@ -26,6 +26,10 @@ app.get('/data', (req,res)=>{
       //  console.log(err)
         let odp = result[0];
         odp.alarm = alarm; 
+        // czas serwera
+        let now = new Date();
+        odp.data = JSON.parse(odp.data);
+        odp.time = Math.floor( now.getTime() / 1000);
         res.send(odp);
     })
 })
