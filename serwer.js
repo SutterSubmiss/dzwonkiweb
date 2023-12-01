@@ -2,14 +2,32 @@ let express = require('express');
 let mysql = require('mysql');
 let app = new express();
 
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "dzwonki",
+let db_conf = {
+    host: "10.10.1.2",
+    user: "pd_dzwonki",
+    password: "dzwonek123",
+    database: "pd_dzwonki",
     port: 3306
-});
-con.connect();
+};
+
+
+
+var con = mysql.createConnection(db_conf);
+//con.connect();
+
+function mysql_connect()
+{
+    con = mysql.createConnection(db_conf);
+}
+
+con.on('error', function(err) {
+    if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+      mysql_connect();                         // lost due to either server restart, or a
+    } else {                                      // connnection idle timeout (the wait_timeout
+      throw err;                                  // server variable configures this)
+    }
+  });
+
 
 
 app.use(express.static('public'));
