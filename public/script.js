@@ -19,7 +19,12 @@ function budujEdycjeDzwonkow(dzwonki){
         let inp = `<div class="input-group flex-nowrap">
         <span class="input-group-text" id="addon-wrapping">${i+1}</span>
         <input type="numeric" value="${e}" class="form-control" placeholder="Długość przerwy" 
-            aria-label="Długość przerwy" aria-describedby="addon-wrapping">
+            aria-label="Długość przerwy"
+             aria-describedby="addon-wrapping">
+             <span class="btn btn-outline-secondary btn-danger" id="basic-addon2">
+              <span class="icon icon-trash danger"></span>
+             </span>
+            
       </div>`;
 
       
