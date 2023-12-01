@@ -1,12 +1,15 @@
 let express = require('express');
 let mysql = require('mysql');
+let env = require('dotenv');
+env.config();
+
 let app = new express();
 
 let db_conf = {
-    host: "10.10.1.2",
-    user: "pd_dzwonki",
-    password: "dzwonek123",
-    database: "pd_dzwonki",
+    host: process.env.host,
+    user: process.env.user,
+    password: process.env.pass,
+    database: process.env.db,
     port: 3306
 };
 
