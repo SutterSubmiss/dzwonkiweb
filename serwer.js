@@ -28,7 +28,7 @@ con.on('error', function(err) {
     }
   });
 
-  connection.connect(function(err) {
+  con.connect(function(err) {
     if(err) {
       setTimeout(mysql_connect, 2000); 
     }
