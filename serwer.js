@@ -5,6 +5,7 @@ env.config();
 
 let app = new express();
 
+// zmiany
 let db_conf = {    
     host: process.env.host,
     user: process.env.user,
