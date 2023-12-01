@@ -5,7 +5,7 @@ env.config();
 
 let app = new express();
 
-let db_conf = { 
+let db_conf = {    
     host: process.env.host,
     user: process.env.user,
     password: process.env.pass,
