@@ -21,14 +21,18 @@ function mysql_connect()
 }
 
 con.on('error', function(err) {
-    if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-      mysql_connect();                         // lost due to either server restart, or a
-    } else {                                      // connnection idle timeout (the wait_timeout
-      throw err;                                  // server variable configures this)
+    if(err.code === 'PROTOCOL_CONNECTION_LOST') { 
+      mysql_connect();
+    } else { 
+      throw err;
     }
   });
 
-
+  connection.connect(function(err) {
+    if(err) {
+      setTimeout(mysql_connect, 2000); 
+    }
+  });   
 
 app.use(express.static('public'));
 let server = app.listen(81, () => {

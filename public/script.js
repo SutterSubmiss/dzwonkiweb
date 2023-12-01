@@ -16,10 +16,15 @@ alarm.addEventListener('click', e=>{
 function budujEdycjeDzwonkow(dzwonki){
     przerwy.innerHTML = '';
     dzwonki.forEach((e,i)=>{
-        let inp = document.createElement('input');
-        inp.type = 'number';
-        inp.value = e;
-        przerwy.append(inp);
+        let inp = `<div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping">${i+1}</span>
+        <input type="numeric" value="${e}" class="form-control" placeholder="Długość przerwy" 
+            aria-label="Długość przerwy" aria-describedby="addon-wrapping">
+      </div>`;
+
+      
+        przerwy.innerHTML += inp;
+
     })
 }
 
