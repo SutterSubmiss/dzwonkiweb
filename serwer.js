@@ -46,24 +46,30 @@ let server = app.listen(81, () => {
 
 let alarm = false;
 
+app.get('/zapiszdzwonki', (req,res)=>{
+  console.log(req.query);
+
+  con.query("select * from bell", (err, result)=>{
+    if(!err)
+    {
+      //$res =
+    }
+  });
+  //con.query(`update bell set data = '${}' where id=1`)
+
+  res.send({status:false});
+
+});
+
+
 app.get('/data', (req,res)=>{
-    // console.log(con)
-
-    // con.getConnection(function (err, connection) {
-
-    //   console.log(err);
-
-    // });
 
     con.query("select * from bell", (err, result)=>{
       if(err )
       {
-        // console.log(err);
-        //   mysql_connect()
           res.send({status:false});
           return;
       }
-      //  console.log(err)
         let odp = result[0];
         odp.alarm = alarm; 
         // czas serwera
