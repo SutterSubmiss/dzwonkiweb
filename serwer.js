@@ -37,11 +37,6 @@ con.on('error', function(err) {
   });
 }
 mysql_connect();
-  // con.connect(function(err) {
-  //   if(err) {
-  //     setTimeout(mysql_connect, 2000); 
-  //   }
-  // });   
 
 app.use(express.static('public'));
 let server = app.listen(81, () => {
