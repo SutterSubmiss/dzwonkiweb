@@ -5,9 +5,29 @@ let servertime = $(".czasserwera");
 let przerwy = $(".przerwy");
 let edycja = false;
 let dodajdzwonek = $(".dodajdzwonek");
+let zapiszdzwonek = $(".zapiszdzwonek");
+
+
+zapiszdzwonek.addEventListener('click', e=>{
+  
+  let dz = przerwy.querySelectorAll('.input-group input');  
+  dzwon = [];
+  dz.forEach(e=>{
+    dzwon.push(e.value);
+  })  
+  fetch('/zapiszdzwonki?dane=' + JSON.stringify(dzwon))
+    .then(e=>e.json())
+    .then(j=>{
+       if(j.status == 'ok')
+       {
+        zapiszdzwonek.classList.add('disabled');
+        edycja = false;
+       }         
+    })
+})
 
 dodajdzwonek.addEventListener('click', e=>{
-    
+    zapiszdzwonek.classList.remove('disabled');
     let i = przerwy.querySelectorAll('.input-group').length;
     edycja=true;
     dodajelem(i+1, 0);
@@ -24,7 +44,7 @@ alarm.addEventListener('click', e=>{
 function dodajelem(num, wart){
     let inp = `<div class="input-group flex-nowrap">
     <span class="input-group-text" id="addon-wrapping">${num}</span>
-    <input type="numeric" value="${wart}" class="form-control" placeholder="Długość przerwy" 
+    <input type="numeric" value="${wart}" onfocus="przerwafokus(this)" class="form-control" placeholder="Długość przerwy" 
         aria-label="Długość przerwy"
          aria-describedby="addon-wrapping">
          <span class="btn btn-outline-secondary btn-danger" id="basic-addon2">
