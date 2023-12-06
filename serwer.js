@@ -7,6 +7,7 @@ let app = new express();
 
 // zmiany     
 let db_conf = {    
+  connectionLimit : 10,
     host: process.env.host,
     user: process.env.user,
     password: process.env.pass,
@@ -16,27 +17,31 @@ let db_conf = {
 
 
 
-var con = mysql.createConnection(db_conf);
+var con = null
 //con.connect();
 
 function mysql_connect()
 {
+  console.log("łącze");
     con = mysql.createConnection(db_conf);
-}
+
 
 con.on('error', function(err) {
+//    console.log("myerr",err);
     if(err.code === 'PROTOCOL_CONNECTION_LOST') { 
+     
       mysql_connect();
     } else { 
       throw err;
     }
   });
-
-  con.connect(function(err) {
-    if(err) {
-      setTimeout(mysql_connect, 2000); 
-    }
-  });   
+}
+mysql_connect();
+  // con.connect(function(err) {
+  //   if(err) {
+  //     setTimeout(mysql_connect, 2000); 
+  //   }
+  // });   
 
 app.use(express.static('public'));
 let server = app.listen(81, () => {
@@ -47,8 +52,22 @@ let server = app.listen(81, () => {
 let alarm = false;
 
 app.get('/data', (req,res)=>{
-   // console.log(con)
+    // console.log(con)
+
+    // con.getConnection(function (err, connection) {
+
+    //   console.log(err);
+
+    // });
+
     con.query("select * from bell", (err, result)=>{
+      if(err )
+      {
+        // console.log(err);
+        //   mysql_connect()
+          res.send({status:false});
+          return;
+      }
       //  console.log(err)
         let odp = result[0];
         odp.alarm = alarm; 

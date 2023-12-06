@@ -4,6 +4,8 @@ let alarm = $('.alarm');
 let servertime = $(".czasserwera");
 let przerwy = $(".przerwy");
 let edycja = false;
+
+
 let dodajdzwonek = $(".dodajdzwonek");
 let zapiszdzwonek = $(".zapiszdzwonek");
 
@@ -41,13 +43,35 @@ alarm.addEventListener('click', e=>{
         })
 })
 
+function zapiszDzwonek(stan)
+{
+    if(stan)
+        zapiszdzwonek.classList.remove('disabled');
+    else
+        zapiszdzwonek.classList.add('disabled');
+    
+    edycja = stan;
+
+}
+
+function przerwafokus(e)
+{
+    zapiszDzwonek(true);
+}
+
+function usundzwonek(num)
+{
+    zapiszDzwonek(true);
+    $(`#dzwonek${num}`).remove();
+}
+
 function dodajelem(num, wart){
-    let inp = `<div class="input-group flex-nowrap">
+    let inp = `<div class="input-group flex-nowrap" id="dzwonek${num}">
     <span class="input-group-text" id="addon-wrapping">${num}</span>
     <input type="numeric" value="${wart}" onfocus="przerwafokus(this)" class="form-control" placeholder="Długość przerwy" 
         aria-label="Długość przerwy"
          aria-describedby="addon-wrapping">
-         <span class="btn btn-outline-secondary btn-danger" id="basic-addon2">
+         <span class="btn btn-outline-secondary btn-danger"  onclick="usundzwonek(${num})" id="basic-addon2">
           <span class="icon icon-trash danger"></span>
          </span>
         
@@ -74,7 +98,7 @@ function readData(){
         servernow.setTime(json.time*1000);
         servertime.innerHTML = servernow.toLocaleTimeString() + " " + servernow.toLocaleDateString();
 
-        if(!edycja)
+        if(!edycja )
         {
             budujEdycjeDzwonkow(json.data.bell)
         }
