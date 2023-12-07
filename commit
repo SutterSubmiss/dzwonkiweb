@@ -1,4 +1,4 @@
 #!/bin/bash
 git add *
-git commit -m "zmiany z lekcji"
+git commit -m $1
 git push

@@ -1,6 +1,7 @@
 let express = require('express');
 let mysql = require('mysql');
 let env = require('dotenv');
+let crc32 = require('crc32');
 env.config();
 
 let app = new express();
@@ -47,17 +48,18 @@ let server = app.listen(81, () => {
 let alarm = false;
 
 app.get('/zapiszdzwonki', (req,res)=>{
-  console.log(req.query);
-
   con.query("select * from bell", (err, result)=>{
     if(!err)
     {
-      //$res =
+      let re = result[0];
+      let data = JSON.parse(re.data);
+      data.bell = JSON.parse(req.query.dane)
+      let dane = JSON.stringify(data);
+      
+      con.query("update bell set `data` = '"+dane+"',  `crc32`=crc32('"+dane+"') where id=1", (err1, res1)=>{});     
     }
   });
-  //con.query(`update bell set data = '${}' where id=1`)
-
-  res.send({status:false});
+  res.send({status:'ok'});
 
 });
 
@@ -65,7 +67,7 @@ app.get('/zapiszdzwonki', (req,res)=>{
 app.get('/data', (req,res)=>{
 
     con.query("select * from bell", (err, result)=>{
-      if(err )
+      if(err )  
       {
           res.send({status:false});
           return;
