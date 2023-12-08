@@ -10,6 +10,15 @@ let dodajdzwonek = $(".dodajdzwonek");
 let zapiszdzwonek = $(".zapiszdzwonek");
 
 
+function addOffset(val="") //val = plus lub minus
+{
+        fetch(`/addoffset?val=${val}`)
+            .then(e=>{
+
+            });
+}
+
+
 zapiszdzwonek.addEventListener('click', e=>{
   
   let dz = przerwy.querySelectorAll('.input-group input');  

@@ -47,6 +47,18 @@ let server = app.listen(81, () => {
 
 let alarm = false;
 
+app.get('/addoffset', (req,res)=>{
+  if(req.query.val && req.query.val=='plus')
+  {
+    con.query('update bell set timeoffset=timeoffset+1 where id=1')
+  }
+  if(req.query.val && req.query.val=='minus')
+  {
+    con.query('update bell set timeoffset=timeoffset-1 where id=1')
+  }
+
+})
+
 app.get('/zapiszdzwonki', (req,res)=>{
   con.query("select * from bell", (err, result)=>{
     if(!err)
@@ -69,6 +81,7 @@ app.get('/data', (req,res)=>{
     con.query("select * from bell", (err, result)=>{
       if(err )  
       {
+        console.log(err);
           res.send({status:false});
           return;
       }
