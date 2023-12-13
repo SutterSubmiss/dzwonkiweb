@@ -56,7 +56,7 @@ app.get('/addoffset', (req,res)=>{
   {
     con.query('update bell set timeoffset=timeoffset-1 where id=1')
   }
-
+  res.send({status:'ok'});
 })
 
 app.get('/zapiszdzwonki', (req,res)=>{
@@ -90,7 +90,7 @@ app.get('/data', (req,res)=>{
         // czas serwera
         let now = new Date();
         odp.data = JSON.parse(odp.data);
-        odp.time = Math.floor( now.getTime() / 1000);
+        odp.time = Math.floor( now.getTime() / 1000) + odp.timeoffset;
         res.send(odp);
     })
 })

@@ -8,6 +8,8 @@ let edycja = false;
 
 let dodajdzwonek = $(".dodajdzwonek");
 let zapiszdzwonek = $(".zapiszdzwonek");
+let dodajoffset = $(".dodajoffset");
+let odejmijoffset = $(".odejmijoffset");
 
 
 function addOffset(val="") //val = plus lub minus
@@ -18,6 +20,9 @@ function addOffset(val="") //val = plus lub minus
             });
 }
 
+dodajoffset.addEventListener('click', e=>{
+    addOffset("plus");
+})
 
 zapiszdzwonek.addEventListener('click', e=>{
   
