@@ -60,6 +60,14 @@ app.get('/addoffset', (req,res)=>{
 })
 
 app.get('/zapiszdzwonki', (req,res)=>{
+
+
+  let inputy = $$(".przerwy input");
+  inputy.forEach(i=>{
+    if(e.checkValidity())
+      console.log(e.value);
+  })
+
   con.query("select * from bell", (err, result)=>{
     if(!err)
     {
@@ -94,6 +102,25 @@ app.get('/data', (req,res)=>{
         res.send(odp);
     })
 })
+
+app.get('/setbellday', (req, res)=>{
+
+  con.query("select * from bell", (err, result)=>{
+    if(err )  
+    {
+      console.log(err);
+        res.send({status:false});
+        return;
+    }
+    let re = result[0];
+    let data = JSON.parse(re.data);
+    data.bellday = req.query.bellday
+    let dane = JSON.stringify(data);
+    
+    con.query("update bell set `data` = '"+dane+"',  `crc32`=crc32('"+dane+"') where id=1", (err1, res1)=>{});     
+    res.send({status:true});
+  });
+});
 
 app.get('/setalarm', (req, res)=>{
     

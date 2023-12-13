@@ -1,4 +1,5 @@
 const $=(name)=>document.querySelector(name);
+const $$=name=>document.querySelectorAll(name);
 
 let alarm = $('.alarm');
 let servertime = $(".czasserwera");
@@ -10,7 +11,7 @@ let dodajdzwonek = $(".dodajdzwonek");
 let zapiszdzwonek = $(".zapiszdzwonek");
 let dodajoffset = $(".dodajoffset");
 let odejmijoffset = $(".odejmijoffset");
-
+let dnitygodnia = $$('.dnitygodnia input[type=checkbox]');
 
 function addOffset(val="") //val = plus lub minus
 {
@@ -71,6 +72,11 @@ function zapiszDzwonek(stan)
 
 }
 
+/*
+    zm=0;
+    zm |= (1<<3);// 4 bit ustaw na jeden
+*/
+
 function przerwafokus(e)
 {
     zapiszDzwonek(true);
@@ -85,17 +91,22 @@ function usundzwonek(num)
 function dodajelem(num, wart){
     let inp = `<div class="input-group flex-nowrap" id="dzwonek${num}">
     <span class="input-group-text" id="addon-wrapping">${num}</span>
-    <input type="numeric" value="${wart}" onfocus="przerwafokus(this)" class="form-control" placeholder="Długość przerwy" 
+    <input  pattern="[0-9]{1,3}" onchange="tylkoliczba(this)" value="${wart}" onfocus="przerwafokus(this)" class="form-control" placeholder="Długość przerwy" 
         aria-label="Długość przerwy"
          aria-describedby="addon-wrapping">
-         <span class="btn btn-outline-secondary btn-danger"  onclick="usundzwonek(${num})" id="basic-addon2">
+         <span class="btn btn-outline-secondary btn-danger" onclick="usundzwonek(${num})" id="basic-addon2">
           <span class="icon icon-trash danger"></span>
          </span>
         
   </div>`;
 
-  
-    przerwy.innerHTML += inp;
+      przerwy.innerHTML += inp;
+}
+
+function tylkoliczba(th)
+{
+    if(!/^[0-9]{1,3}$/.test(th.value))
+        th.value = 0;
 }
 
 function budujEdycjeDzwonkow(dzwonki){
@@ -103,6 +114,12 @@ function budujEdycjeDzwonkow(dzwonki){
     dzwonki.forEach((e,i)=>{
         dodajelem(i+1, e);
     })
+}
+
+function edycjaDniTygodnia(dni)
+{
+    for(let i=0; i<7; i++)
+        dnitygodnia[i].checked = (dni & (1<<i)) == (1<<i);
 }
 
 function readData(){
@@ -117,7 +134,8 @@ function readData(){
 
         if(!edycja )
         {
-            budujEdycjeDzwonkow(json.data.bell)
+            budujEdycjeDzwonkow(json.data.bell);
+            edycjaDniTygodnia(json.data.bellday);
         }
     })
 }
