@@ -23,6 +23,9 @@ function addOffset(val="") //val = plus lub minus
 dodajoffset.addEventListener('click', e=>{
     addOffset("plus");
 })
+odejmijoffset.addEventListener('click', e=>{
+    addOffset("minus");
+})
 
 zapiszdzwonek.addEventListener('click', e=>{
   
