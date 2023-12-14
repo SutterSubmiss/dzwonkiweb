@@ -62,12 +62,6 @@ app.get('/addoffset', (req,res)=>{
 app.get('/zapiszdzwonki', (req,res)=>{
 
 
-  let inputy = $$(".przerwy input");
-  inputy.forEach(i=>{
-    if(e.checkValidity())
-      console.log(e.value);
-  })
-
   con.query("select * from bell", (err, result)=>{
     if(!err)
     {

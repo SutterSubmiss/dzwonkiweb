@@ -12,6 +12,7 @@ let zapiszdzwonek = $(".zapiszdzwonek");
 let dodajoffset = $(".dodajoffset");
 let odejmijoffset = $(".odejmijoffset");
 let dnitygodnia = $$('.dnitygodnia input[type=checkbox]');
+//dnitygodnia[0].checked
 
 function addOffset(val="") //val = plus lub minus
 {
@@ -29,7 +30,21 @@ odejmijoffset.addEventListener('click', e=>{
 })
 
 zapiszdzwonek.addEventListener('click', e=>{
-  
+  let dniTygodnia_ = 0;
+  for(let i=0; i<7; i++)
+  {
+    if(dnitygodnia[i].checked)
+        dniTygodnia_ |= (1 << i);
+  }  
+  //console.log(dniTygodnia_)
+  setTimeout(()=>{
+    fetch('/setbellday?bellday=' + dniTygodnia_)
+    .then(e=>{});
+
+  }, 500)
+
+
+
   let dz = przerwy.querySelectorAll('.input-group input');  
   dzwon = [];
   dz.forEach(e=>{

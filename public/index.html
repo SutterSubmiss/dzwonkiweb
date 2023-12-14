@@ -22,11 +22,15 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md">
+      <div class="col-md-4">
+        <h4>Dezaktywacja alarmu</h4>
+        <div class="btn alarmdisable btn-primary">ON</div>
+      </div>
+      <div class="col-md-4">
         <h4>Włącz alarm</h4>
         <div class="btn alarm btn-info">Alarm</div>
       </div>
-      <div class="col-md">
+      <div class="col-md-4">
         <h4>Czas serwera</h4>
         <span class="czasserwera"></span>
         <span class="btn btn-primary dodajoffset">
@@ -36,6 +40,37 @@
           <span class="icon icon-minus"></span>
         </span>
       </div>
+
+      <div class="col-md-4">
+        <h4>Start lekcji</h4>
+        <div class="input-group flex-nowrap" id="startlekcji">
+          <input  pattern="[0-9]{1,2}\:[0-9]{1,2}" onfocus="przerwafokus(this)" 
+          class="form-control" placeholder="Start lekcji np 9:10" 
+              aria-label="Start lekcji"
+               aria-describedby="addon-wrapping">
+        </div>    
+      </div>
+
+      <div class="col-md-4">
+        <h4>Czas lekcji</h4>
+        <div class="input-group flex-nowrap" id="czaslekcji">
+          <input  pattern="[0-9]{1,3}"  onchange="tylkoliczba(this)" onfocus="przerwafokus(this)" 
+            class="form-control" placeholder="Czas lekcji w minutach np 45" 
+              aria-label="czas lekcji"
+               aria-describedby="addon-wrapping">
+        </div>    
+      </div>
+
+      <div class="col-md-4">
+        <h4>Długość dzwonka</h4>
+        <div class="input-group flex-nowrap" id="czasdzwonka">
+          <input  pattern="[0-9]{1,3}"  onchange="tylkoliczba(this)" onfocus="przerwafokus(this)" 
+            class="form-control" placeholder="Długość dzwonka w sekundach np 5" 
+              aria-label="Długość dzwonka"
+               aria-describedby="addon-wrapping">
+        </div>    
+      </div>
+
 
       <div class="col-md-12 dnitygodnia">
         <h4>Dni tygodnia</h4>
