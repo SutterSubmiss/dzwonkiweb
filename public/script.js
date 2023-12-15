@@ -13,6 +13,9 @@ let dodajoffset = $(".dodajoffset");
 let odejmijoffset = $(".odejmijoffset");
 let dnitygodnia = $$('.dnitygodnia input[type=checkbox]');
 let alarmdisable = $('.alarmdisable');
+let startlekcji = $('#startlekcji>input');
+let czaslekcji = $('#czaslekcji>input');
+let czasdzwonka = $('#czasdzwonka>input');
 //dnitygodnia[0].checked
 
 function addOffset(val="") //val = plus lub minus
@@ -158,6 +161,10 @@ function readData(){
 
         if(!edycja )
         {
+            czasdzwonka.value = json.data.belltime;
+            startlekcji.value = json.data.startlesson;
+            czaslekcji.value = json.data.timelesson;
+
             budujEdycjeDzwonkow(json.data.bell);
             edycjaDniTygodnia(json.data.bellday);
         }
