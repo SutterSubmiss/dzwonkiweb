@@ -12,6 +12,7 @@ let zapiszdzwonek = $(".zapiszdzwonek");
 let dodajoffset = $(".dodajoffset");
 let odejmijoffset = $(".odejmijoffset");
 let dnitygodnia = $$('.dnitygodnia input[type=checkbox]');
+let alarmdisable = $('.alarmdisable');
 //dnitygodnia[0].checked
 
 function addOffset(val="") //val = plus lub minus
@@ -136,6 +137,9 @@ function edycjaDniTygodnia(dni)
     for(let i=0; i<7; i++)
         dnitygodnia[i].checked = (dni & (1<<i)) == (1<<i);
 }
+alarmdisable.addEventListener('click',e=>{
+    fetch('/endis').this(x=>{});
+})
 
 function readData(){
     fetch('/data')
@@ -147,6 +151,11 @@ function readData(){
         servernow.setTime(json.time*1000);
         servertime.innerHTML = servernow.toLocaleTimeString() + " " + servernow.toLocaleDateString();
 
+        alarmdisable.innerHTML = (json.data.endis ? "ON" : "OFF") 
+        alarmdisable.classList.remove('btn-danger');
+        if(!json.data.endis)
+            alarmdisable.classList.add('btn-danger');
+
         if(!edycja )
         {
             budujEdycjeDzwonkow(json.data.bell);
@@ -157,4 +166,4 @@ function readData(){
 
 setInterval(()=>{
     readData();
-},1000)
+},1000);

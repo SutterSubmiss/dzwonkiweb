@@ -47,7 +47,21 @@ let server = app.listen(81, () => {
 
 let alarm = false;
 
-app.get('/addoffset', (req,res)=>{
+  app.get('/endis', (req,res)=>{
+    con.query("select * from bell", (err, result)=>{
+      if(!err)
+      {
+        let re = result[0];
+        let data = JSON.parse(re.data);
+        data.endis = !data.endis;
+        let dane = JSON.stringify(data);
+        con.query("update bell set `data` = '"+dane+"',  `crc32`=crc32('"+dane+"') where id=1", (err1, res1)=>{});     
+      }
+      res.send({status:'ok'});
+    });
+  });
+
+  app.get('/addoffset', (req,res)=>{
   if(req.query.val && req.query.val=='plus')
   {
     con.query('update bell set timeoffset=timeoffset+1 where id=1')
