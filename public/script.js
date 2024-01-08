@@ -26,6 +26,8 @@ function addOffset(val="") //val = plus lub minus
             });
 }
 
+
+
 dodajoffset.addEventListener('click', e=>{
     addOffset("plus");
 })
@@ -45,7 +47,18 @@ zapiszdzwonek.addEventListener('click', e=>{
     fetch('/setbellday?bellday=' + dniTygodnia_)
     .then(e=>{});
 
-  }, 500)
+  }, 250);
+  setTimeout(()=>{
+   let reg = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
+
+   let dzwonek = startlekcji.value; //00:00 - 23:59
+   console.log(reg.test(dzwonek)); 
+
+   // fetch('/setoption?bellday=' + dniTygodnia_)
+   // .then(e=>{});
+
+  }, 500);
+
 
 
 
@@ -54,7 +67,9 @@ zapiszdzwonek.addEventListener('click', e=>{
   dz.forEach(e=>{
     dzwon.push(e.value);
   })  
-  fetch('/zapiszdzwonki?dane=' + JSON.stringify(dzwon))
+  fetch('/zapiszdzwonki?dane=' + JSON.stringify(dzwon)+`&startlekcji=${startlekcji.value}`
+  +`&czaslekcji=${czaslekcji.value}`+`&czasdzwonka=${czasdzwonka.value}`, 
+  {'method':"GET", "headers":{'Authorization': 'Basic ' + btoa('admin:admin')}})
     .then(e=>e.json())
     .then(j=>{
        if(j.status == 'ok')
@@ -103,8 +118,10 @@ function przerwafokus(e)
 
 function usundzwonek(num)
 {
-    zapiszDzwonek(true);
-    $(`#dzwonek${num}`).remove();
+    if(confirm("Czy chcesz usunąć dzwonek?")){
+        zapiszDzwonek(true);
+        $(`#dzwonek${num}`).remove();
+    }
 }
 
 function dodajelem(num, wart){

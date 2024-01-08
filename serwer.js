@@ -2,6 +2,7 @@ let express = require('express');
 let mysql = require('mysql');
 let env = require('dotenv');
 let crc32 = require('crc32');
+const basicAuth = require('express-basic-auth')
 env.config();
 
 let app = new express();
@@ -47,6 +48,18 @@ let server = app.listen(81, () => {
 
 let alarm = false;
 
+// app.use(basicAuth({
+//   users: { 'admin': 'admin' }
+// }))
+
+let usersdata = {};
+users[process.env.auth_username]=process.env.auth_password
+var staticUserAuth = basicAuth({
+  users: usersdata,
+  challenge: false
+})
+
+
   app.get('/endis', (req,res)=>{
     con.query("select * from bell", (err, result)=>{
       if(!err)
@@ -72,8 +85,11 @@ let alarm = false;
   }
   res.send({status:'ok'});
 })
+app.get('/login',staticUserAuth, (req, res)=>{
 
-app.get('/zapiszdzwonki', (req,res)=>{
+})
+
+app.get('/zapiszdzwonki',staticUserAuth, (req,res)=>{
 
 
   con.query("select * from bell", (err, result)=>{
@@ -82,6 +98,10 @@ app.get('/zapiszdzwonki', (req,res)=>{
       let re = result[0];
       let data = JSON.parse(re.data);
       data.bell = JSON.parse(req.query.dane)
+      data.belltime=req.query.czasdzwonka;
+      data.startlesson=req.query.startlekcji;
+      data.timelesson=req.query.czaslekcji;
+
       let dane = JSON.stringify(data);
       
       con.query("update bell set `data` = '"+dane+"',  `crc32`=crc32('"+dane+"') where id=1", (err1, res1)=>{});     
@@ -111,7 +131,7 @@ app.get('/data', (req,res)=>{
     })
 })
 
-app.get('/setbellday', (req, res)=>{
+app.get('/setbellday', staticUserAuth,(req, res)=>{
 
   con.query("select * from bell", (err, result)=>{
     if(err )  
