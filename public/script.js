@@ -5,7 +5,8 @@ let alarm = $('.alarm');
 let servertime = $(".czasserwera");
 let przerwy = $(".przerwy");
 let edycja = false;
-
+let logowanie = $('.logowanie'); // okno logowania
+let logowaniebutton = $('#logowanie'); // przycisk logowanie
 
 let dodajdzwonek = $(".dodajdzwonek");
 let zapiszdzwonek = $(".zapiszdzwonek");
@@ -17,6 +18,15 @@ let startlekcji = $('#startlekcji>input');
 let czaslekcji = $('#czaslekcji>input');
 let czasdzwonka = $('#czasdzwonka>input');
 //dnitygodnia[0].checked
+
+if(window.localStorage.getItem('login'))
+            logowanie.classList.add('hide');
+
+logowaniebutton.addEventListener('click', (e)=>{
+    window.localStorage.setItem('login', 1);
+    logowanie.classList.add('hide');
+
+})
 
 function addOffset(val="") //val = plus lub minus
 {
