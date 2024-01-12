@@ -1,3 +1,28 @@
 input:invalid {
     background-color: #f0707090 !important;
 }
+
+.logowanie
+{
+    display: flex;
+    position: fixed;
+    left: 0;
+    top:0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffffe7;
+    z-index: 1000;
+    
+}
+.logowanie.hide {
+    display: none;
+    visibility: hidden;
+    left: -5000px;
+    
+}
+
+.logowanie .login {
+
+    display: inline-block;
+    margin: auto;
+}

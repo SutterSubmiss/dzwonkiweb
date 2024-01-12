@@ -53,7 +53,7 @@ let alarm = false;
 // }))
 
 let usersdata = {};
-users[process.env.auth_username]=process.env.auth_password
+usersdata[process.env.auth_username]=process.env.auth_password
 var staticUserAuth = basicAuth({
   users: usersdata,
   challenge: false
