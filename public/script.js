@@ -8,6 +8,9 @@ let edycja = false;
 let logowanie = $('.logowanie'); // okno logowania
 let logowaniebutton = $('#logowanie'); // przycisk logowanie
 
+let login = "";
+let pass = "";
+
 let dodajdzwonek = $(".dodajdzwonek");
 let zapiszdzwonek = $(".zapiszdzwonek");
 let dodajoffset = $(".dodajoffset");
@@ -17,26 +20,39 @@ let alarmdisable = $('.alarmdisable');
 let startlekcji = $('#startlekcji>input');
 let czaslekcji = $('#czaslekcji>input');
 let czasdzwonka = $('#czasdzwonka>input');
-//dnitygodnia[0].checked
 
-if(window.localStorage.getItem('login'))
-            logowanie.classList.add('hide');
+
 
 logowaniebutton.addEventListener('click', (e)=>{
-    window.localStorage.setItem('login', 1);
-    logowanie.classList.add('hide');
-
+    pass = $("#password").value;
+    login = $("#login").value;
+    console.log(login, pass);
+    loginTest();
 })
+
+
 
 function addOffset(val="") //val = plus lub minus
 {
-        fetch(`/addoffset?val=${val}`)
+        fetch(`/addoffset?val=${val}`, {'method':"GET", "headers":{'Authorization': 'Basic ' + btoa(login+':'+pass)}})
             .then(e=>{
 
             });
 }
 
+function loginTest(){
+fetch("/login", {'method':"GET", "headers":{'Authorization': 'Basic ' + btoa(login+':'+pass)}})
+    .then(e=>{
+        if(e.status == 401){
+           $(".logowanie").classList.remove("hide");
+        } else {
+            // ukryj okno logowania
+            $(".logowanie").classList.add("hide");
+        }
+    })
+}
 
+loginTest();
 
 dodajoffset.addEventListener('click', e=>{
     addOffset("plus");
@@ -54,7 +70,7 @@ zapiszdzwonek.addEventListener('click', e=>{
   }  
   //console.log(dniTygodnia_)
   setTimeout(()=>{
-    fetch('/setbellday?bellday=' + dniTygodnia_)
+    fetch('/setbellday?bellday=' + dniTygodnia_, {'method':"GET", "headers":{'Authorization': 'Basic ' + btoa(login+':'+pass)}})
     .then(e=>{});
 
   }, 250);
@@ -79,7 +95,7 @@ zapiszdzwonek.addEventListener('click', e=>{
   })  
   fetch('/zapiszdzwonki?dane=' + JSON.stringify(dzwon)+`&startlekcji=${startlekcji.value}`
   +`&czaslekcji=${czaslekcji.value}`+`&czasdzwonka=${czasdzwonka.value}`, 
-  {'method':"GET", "headers":{'Authorization': 'Basic ' + btoa('admin:admin')}})
+  {'method':"GET", "headers":{'Authorization': 'Basic ' + btoa(login+':'+pass)}})
     .then(e=>e.json())
     .then(j=>{
        if(j.status == 'ok')
@@ -98,7 +114,7 @@ dodajdzwonek.addEventListener('click', e=>{
 })
 
 alarm.addEventListener('click', e=>{
-    fetch('/setalarm?alarm=true')
+    fetch('/setalarm?alarm=true', {'method':"GET", "headers":{'Authorization': 'Basic ' + btoa(login+':'+pass)}})
         .then(x=>x.json())
         .then(json=>{
             alarm.className = 'btn alarm '+ (json.alarm?'btn-danger':'btn-info');
@@ -168,7 +184,7 @@ function edycjaDniTygodnia(dni)
         dnitygodnia[i].checked = (dni & (1<<i)) == (1<<i);
 }
 alarmdisable.addEventListener('click',e=>{
-    fetch('/endis').this(x=>{});
+    fetch('/endis', {'method':"GET", "headers":{'Authorization': 'Basic ' + btoa(login+':'+pass)}}).this(x=>{});
 })
 
 function readData(){
