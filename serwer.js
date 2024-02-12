@@ -60,7 +60,7 @@ var staticUserAuth = basicAuth({
 })
 
 
-  app.get('/endis', (req,res)=>{
+  app.get('/endis',staticUserAuth, (req,res)=>{
     con.query("select * from bell", (err, result)=>{
       if(!err)
       {
@@ -74,7 +74,7 @@ var staticUserAuth = basicAuth({
     });
   });
 
-  app.get('/addoffset', (req,res)=>{
+  app.get('/addoffset',staticUserAuth, (req,res)=>{
   if(req.query.val && req.query.val=='plus')
   {
     con.query('update bell set timeoffset=timeoffset+1 where id=1')
@@ -151,7 +151,7 @@ app.get('/setbellday', staticUserAuth,(req, res)=>{
   });
 });
 
-app.get('/setalarm', (req, res)=>{
+app.get('/setalarm',staticUserAuth, (req, res)=>{
     
     let alarm1 = req.query.alarm?req.query.alarm:false;
     if(alarm1){
