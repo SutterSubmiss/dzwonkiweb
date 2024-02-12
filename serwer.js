@@ -86,8 +86,9 @@ var staticUserAuth = basicAuth({
   res.send({status:'ok'});
 })
 app.get('/login',staticUserAuth, (req, res)=>{
-
+  res.send({status:'ok'});
 })
+
 
 app.get('/zapiszdzwonki',staticUserAuth, (req,res)=>{
 
