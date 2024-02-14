@@ -62,6 +62,12 @@ odejmijoffset.addEventListener('click', e=>{
 })
 
 zapiszdzwonek.addEventListener('click', e=>{
+
+    if(!walidacja(e))
+    {
+        return;
+    }
+
   let dniTygodnia_ = 0;
   for(let i=0; i<7; i++)
   {
@@ -137,9 +143,30 @@ function zapiszDzwonek(stan)
     zm |= (1<<3);// 4 bit ustaw na jeden
 */
 
+function walidacja(e){
+    let sl = $("#startlekcji input");
+    let val = /^([0-9]{1,2}):([0-9]{1,2})$/g
+    let walid = val.exec(sl.value); 
+    if(walid.length != 3)
+    {
+        alert("Podałeś złą godzinę");
+        return false;
+    }
+
+    console.log(walid);
+    if((walid[1]>23 || walid[1]<0) || (walid[2]>59 || walid[2]<0))
+    {
+        alert("Podałeś złą godzinę");
+        return false;
+    }
+
+    return true;
+}
+
 function przerwafokus(e)
 {
-    zapiszDzwonek(true);
+    
+        zapiszDzwonek(true);
 }
 
 function usundzwonek(num)
